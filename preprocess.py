@@ -7,7 +7,7 @@ def parse_codepoint(query):
     return int(query, 16)
 
 def codepoint2unichr(codepoint):
-    return unichr(codepoint)
+    return eval(r'u"\U%08x"' % codepoint)
 
 def to_xml(validity, query, title, subtitle):
     params = {
