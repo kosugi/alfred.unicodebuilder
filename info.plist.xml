@@ -17,6 +17,17 @@
 				<string></string>
 			</dict>
 		</array>
+		<key>ADAA3DC1-80FE-4CBE-9698-6E5AE51B3791</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>404706E4-840C-4963-951D-A819A5C2D308</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 	</dict>
 	<key>createdby</key>
 	<string>kosugi</string>
@@ -31,6 +42,21 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>404706E4-840C-4963-951D-A819A5C2D308</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
@@ -38,20 +64,7 @@
 				<key>keyword</key>
 				<string>u+</string>
 				<key>script</key>
-				<string># -*- coding: utf-8 -*-
-#
-# makes a unicode character from keyword as hexadecimal codepoint
-# and put it into clipboard.
-#
-# query MUST be escaped double quotation marks and backslashes.
-#
-
-import sys
-import codecs
-import preprocess
-sys.stdout = codecs.getwriter('UTF-8')(sys.stdout)
-print preprocess.do(u"""{query}""")
-</string>
+				<string></string>
 				<key>subtext</key>
 				<string>Type hexadecimal unicode codepoint</string>
 				<key>title</key>
@@ -71,15 +84,27 @@ print preprocess.do(u"""{query}""")
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>autopaste</key>
-				<false/>
-				<key>clipboardtext</key>
-				<string>{query}</string>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>unicode</string>
+				<key>script</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type any unicode name or character itself</string>
+				<key>title</key>
+				<string>Unicode name query</string>
+				<key>type</key>
+				<integer>3</integer>
+				<key>withspace</key>
+				<true/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
+			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>404706E4-840C-4963-951D-A819A5C2D308</string>
+			<string>ADAA3DC1-80FE-4CBE-9698-6E5AE51B3791</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -97,6 +122,11 @@ print preprocess.do(u"""{query}""")
 		<dict>
 			<key>ypos</key>
 			<real>10</real>
+		</dict>
+		<key>ADAA3DC1-80FE-4CBE-9698-6E5AE51B3791</key>
+		<dict>
+			<key>ypos</key>
+			<real>130</real>
 		</dict>
 	</dict>
 	<key>webaddress</key>

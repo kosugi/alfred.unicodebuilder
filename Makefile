@@ -3,13 +3,13 @@
 
 all: dist.alfredworkflow
 
-dist.alfredworkflow: icon.png info.plist preprocess.py db
+dist.alfredworkflow: icon.png info.plist preprocess.py query.py db
 	zip $@ $?
 
 icon.png: icon.svg
 	convert -background None $< $@
 
-info.plist: main_build.py info.plist.xml
+info.plist: main_build.py main_query.py info.plist.xml
 	python make-info.plist.py
 
 db: make-db.py
@@ -20,6 +20,7 @@ clean:
 
 test:
 	python test_preprocess.py
+	python test_query.py
 
-install:
+install: all
 	open dist.alfredworkflow
