@@ -2,13 +2,30 @@
 
 is an Alfred plugin that makes unicode character from hexadecimal unicode codepoint as your input.
 
-A module for download is available on <http://kosugi.github.io/alfred.unicodebuilder/>.
+## Requirements
+
+* Alfred v2
+* Alfred Powerpack license
 
 ## How to install
 
-Required: ImageMagick, zip and Alfred
+download via <http://kosugi.github.io/alfred.unicodebuilder/>.
 
-    make
-    make install
+or clone this repository and make install (python 2, ImageMagick are required)
 
-or get via download page and open it.
+## How to use
+
+### Forward unicoding
+
+Type `U+` and any hexadecimal unicode codepoint.
+This shows associated unicode character and you can copy it into clipboard.
+
+### Reverse unicoding
+
+Type `unicode` and any unicode name.
+This shows associated unicode character and you can copy it into clipboard.
+
+Type `unicode` and any unicode character itself.
+This shows codepoint information and its unicode name.
+
+seel also: <http://kosugi.github.io/alfred.unicodebuilder/>
