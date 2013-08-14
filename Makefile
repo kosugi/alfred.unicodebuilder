@@ -9,7 +9,7 @@ dist.alfredworkflow: icon.png info.plist preprocess.py
 icon.png: icon.svg
 	convert -background None $< $@
 
-info.plist: main.py info.plist.xml
+info.plist: main_build.py info.plist.xml
 	python make-info.plist.py
 
 clean:

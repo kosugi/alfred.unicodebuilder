@@ -4,12 +4,31 @@ from os.path import dirname, realpath
 import sys
 import codecs
 
-BASE = realpath(dirname(sys.argv[0]))
+def xpath_for_uid(uid):
+    return ''.join((
+        "/plist",
+        "/dict",
+        "/key[text()='objects']",
+        "/following-sibling::array[1]",
+        "/dict",
+        "/key[text()='uid']"
+        "/following-sibling::string[1][text()='%s']",
+        "/..",
+        "/key[text()='config']",
+        "/following-sibling::dict[1]",
+        "/key[text()='script']",
+        "/following-sibling::string[1]",
+    )) % uid # !! not to be escaped !!
 
-with open(BASE + '/main.py') as f:
-    src = f.read()
+def replace_node(xml, uid, path):
+    with open(path) as f:
+        src = f.read()
+    node = xml.xpath(xpath_for_uid(uid))[0]
+    node.text = src
+
+BASE = realpath(dirname(sys.argv[0]))
 xml = etree.parse(BASE + '/info.plist.xml')
-node = xml.xpath("/plist/dict/key[text()='objects']/following-sibling::array[1]/dict/key[text()='type']/following-sibling::string[1][text()='alfred.workflow.input.scriptfilter']/../key[text()='config']/following-sibling::dict[1]/key[text()='script']/following-sibling::string[1]")[0]
-node.text = src
+replace_node(xml, '6A8652AA-89BD-4559-B9E5-F27D3D01C0CA', BASE + '/main_build.py')
+
 with codecs.getwriter('UTF-8')(open(BASE + '/info.plist', 'w')) as f:
     f.write(etree.tostring(xml))
