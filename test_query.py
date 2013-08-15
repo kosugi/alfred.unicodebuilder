@@ -16,3 +16,6 @@ class QueryTestCase(unittest.TestCase):
         self.assertEqual('a*', normalize_keywords('a'))
         self.assertEqual('a* b*', normalize_keywords(' a B'))
         self.assertEqual('a* b*', normalize_keywords(' a B'))
+
+if __name__ == '__main__':
+    unittest.main()

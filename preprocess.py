@@ -2,12 +2,10 @@
 
 import unicodedata
 from xml.sax.saxutils import escape as h
+from lib import codepoint2unichr
 
 def parse_codepoint(query):
     return int(query, 16)
-
-def codepoint2unichr(codepoint):
-    return ('\\U' + '%08x' % codepoint).decode('unicode-escape')
 
 def to_xml(validity, query, title, subtitle):
     params = {
