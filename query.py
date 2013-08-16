@@ -4,11 +4,12 @@ import re
 import sqlite3
 from contextlib import closing
 from xml.sax.saxutils import escape as h
+from lib import lower
 
 pat_divide_kwds = re.compile(r'\s+')
 
 def normalize_keywords(query):
-    query = query.lower()
+    query = lower(query)
     for x in ('*', "'", '"', ':', '(', ')'):
         query = query.replace(x, ' ')
 
@@ -51,7 +52,7 @@ def build_xml(query, rows):
             u'arg': h(query),
             u'title': h(query),
             u'subtitle': h(u'No characters matched'),
-            u'valid': u'no'
+            u'valid': u'yes'
         }
         items.append(to_xml_item(params))
 

@@ -19,7 +19,7 @@ clean:
 	rm -f *.pyc icon.png info.plist dist.alfredworkflow db
 
 test:
-	for f in test_preprocess test_query test_lib; do python "$${f}.py"; done
+	python -m unittest test_preprocess test_query test_lib
 
 install: all
 	open dist.alfredworkflow

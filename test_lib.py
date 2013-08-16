@@ -33,6 +33,8 @@ class LibTestCase(unittest.TestCase):
         self.assertEqual(u'a', lower(u'A'))
         self.assertEqual(u'z', lower(u'Z'))
         self.assertEqual(u'[', lower(u'[')) # Z + 1
+        self.assertEqual(u'α', lower(u'α'))
+        self.assertEqual(u'Α', lower(u'Α'))
 
 if __name__ == '__main__':
     unittest.main()

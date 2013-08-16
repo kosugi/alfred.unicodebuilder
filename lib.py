@@ -16,4 +16,4 @@ def unichr2codepoint(s):
 
 lower_map = dict([(n, unichr(n + 0x20)) for n in range(ord(u'A'), ord(u'Z') + 1)])
 def lower(s):
-    return s.translate(lower_map)
+    return unicode(s).translate(lower_map)
