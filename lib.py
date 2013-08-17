@@ -8,7 +8,7 @@ def h(value):
     return escape(value, alt_escape_rule)
 
 def codepoint2unichr(codepoint):
-    return ('\\U' + '%08x' % codepoint).decode('unicode-escape')
+    return (r'\U' + '%08x' % codepoint).decode('unicode-escape')
 
 pat_unichr = re.compile(r"^u'\\U([0-9a-f]{8})'$")
 def unichr2codepoint(s):
