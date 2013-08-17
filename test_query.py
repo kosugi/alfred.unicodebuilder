@@ -24,6 +24,10 @@ class QueryTestCase(unittest.TestCase):
         self.assertEqual(u'Σ*', normalize_keywords(u'Σ'))
         self.assertEqual(u'б*', normalize_keywords(u'б'))
 
+    def test_error(self):
+        self.maxDiff = None
+        self.assertEqual(squeeze(error('bad')), u'''<?xml version="1.0" encoding="UTF-8"?><items><item uid="uid" arg="" valid="yes"><title>Error</title><subtitle>Something went wrong...</subtitle><icon>icon.png</icon></item></items>''')
+
     def test_do(self):
         self.maxDiff = None
         self.assertEqual(squeeze(do(u'')), u'''<?xml version="1.0" encoding="UTF-8"?><items><item uid="r0" arg="" valid="no"><title></title><subtitle>No characters matched</subtitle><icon>icon.png</icon></item></items>''')

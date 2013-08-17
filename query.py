@@ -23,10 +23,7 @@ def get_rows(cursor, query):
     return cursor.fetchmany(30)
 
 def error(s):
-    return u'''<?xml version="1.0" encoding="UTF-8"?>
-<items>
-    <item uid="uid" arg="{0}" valid="yes"><title>Error</title><subtitle>Something went wrong...</subtitle><icon>icon.png</icon></item>
-</items>'''.format(h(s))
+    return to_xml(dict(uid=to_xml_item(uid=u'uid', title=u'Error', subtitle=u'Something went wrong...')))
 
 def build_xml(query, rows):
     items = {}
