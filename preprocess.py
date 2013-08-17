@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unicodedata
-from lib import codepoint2unichr, h, to_xml_item, to_xml
-
-def parse_codepoint(query):
-    return int(query, 16)
+from lib import codepoint2unichr, parse_codepoint, h, to_xml_item, to_xml
 
 def make_xml(validity, arg, title, subtitle):
     return to_xml(dict(uid=to_xml_item(uid=u'uid', validity=validity, arg=arg, title=title, subtitle=subtitle)))

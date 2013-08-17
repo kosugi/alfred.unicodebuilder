@@ -7,6 +7,9 @@ alt_escape_rule = {u'"': u'&quot;', u"'": u'&#39;'}
 def h(value):
     return escape(value, alt_escape_rule)
 
+def parse_codepoint(query):
+    return int(query, 16)
+
 def codepoint2unichr(codepoint):
     return (r'\U' + '%08x' % codepoint).decode('unicode-escape')
 
@@ -16,7 +19,7 @@ def unichr2codepoint(s):
     if len(s) == 1:
         return ord(s)
     m = pat_unichr.match(repr(s))
-    return int(m.group(1), 16) if m else 0
+    return parse_codepoint(m.group(1)) if m else 0
 
 lower_map = dict([(n, unichr(n + 0x20)) for n in range(ord(u'A'), ord(u'Z') + 1)])
 def lower(s):
