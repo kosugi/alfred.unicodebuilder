@@ -29,3 +29,7 @@ Type `unicode` and any unicode character itself.
 This shows codepoint information and its unicode name.
 
 seel also: <http://kosugi.github.io/alfred.unicodebuilder/>
+
+## License
+
+publishes under [the MIT license](https://github.com/kosugi/alfred.unicodebuilder/blob/master/COPYING)
