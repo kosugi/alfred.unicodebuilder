@@ -63,6 +63,6 @@ def do(query):
         with closing(conn.cursor()) as cursor:
             try:
                 rows = get_rows(cursor, query)
-                print build_xml(query, rows)
+                return build_xml(query, rows)
             except Exception, e:
-                print error(str(e))
+                return error(str(e))

@@ -10,4 +10,5 @@ import sys
 import codecs
 import preprocess
 sys.stdout = codecs.getwriter('UTF-8')(sys.stdout)
-print preprocess.do(u"""{query}""")
+q = sys.argv[1] if 1 < len(sys.argv) else u"""{query}"""
+print preprocess.do(q)
