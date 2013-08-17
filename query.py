@@ -3,8 +3,7 @@
 import re
 import sqlite3
 from contextlib import closing
-from xml.sax.saxutils import escape as h
-from lib import lower
+from lib import lower, h
 
 pat_divide_kwds = re.compile(r'\s+')
 

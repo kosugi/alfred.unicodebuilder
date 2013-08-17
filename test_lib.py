@@ -5,6 +5,13 @@ from lib import *
 
 class LibTestCase(unittest.TestCase):
 
+    def test_h(self):
+        self.assertEqual(u'&amp;', h(u'&'))
+        self.assertEqual(u'&lt;', h(u'<'))
+        self.assertEqual(u'&gt;', h(u'>'))
+        self.assertEqual(u'&quot;', h(u'"'))
+        self.assertEqual(u'&#39;', h(u"'"))
+
     def test_codepoint2unichr(self):
         self.assertEqual(u'\u0000', codepoint2unichr(0))
         self.assertEqual(u'\u00a0', codepoint2unichr(0xa0))

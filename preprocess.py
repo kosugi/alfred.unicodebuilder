@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unicodedata
-from xml.sax.saxutils import escape as h
-from lib import codepoint2unichr
+from lib import codepoint2unichr, h
 
 def parse_codepoint(query):
     return int(query, 16)

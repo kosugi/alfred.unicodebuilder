@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import re
-from xml.sax.saxutils import escape as h
+from xml.sax.saxutils import escape
+
+alt_escape_rule = {u'"': u'&quot;', u"'": u'&#39;'}
+def h(value):
+    return escape(value, alt_escape_rule)
 
 def codepoint2unichr(codepoint):
     return ('\\U' + '%08x' % codepoint).decode('unicode-escape')

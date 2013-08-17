@@ -3,7 +3,7 @@
 
 all: dist.alfredworkflow
 
-dist.alfredworkflow: icon.png info.plist preprocess.py query.py db
+dist.alfredworkflow: icon.png info.plist preprocess.py query.py lib.py db
 	zip $@ $?
 
 icon.png: icon.svg
