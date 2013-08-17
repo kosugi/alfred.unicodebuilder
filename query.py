@@ -3,7 +3,7 @@
 import re
 import sqlite3
 from contextlib import closing
-from lib import lower, h, to_xml_item
+from lib import lower, h, to_xml_item, to_xml
 
 pat_divide_kwds = re.compile(r'\s+')
 
@@ -25,37 +25,28 @@ def get_rows(cursor, query):
 def error(s):
     return u'''<?xml version="1.0" encoding="UTF-8"?>
 <items>
-    <item uid="id" arg="{0}" valid="yes"><title>Error</title><subtitle>Something went wrong...</subtitle><icon>icon.png</icon></item>
+    <item uid="uid" arg="{0}" valid="yes"><title>Error</title><subtitle>Something went wrong...</subtitle><icon>icon.png</icon></item>
 </items>'''.format(h(s))
 
 def build_xml(query, rows):
-    items = []
+    items = {}
     for row in rows:
         code = row[0]
         name = row[1]
         c = (r'\U' + '%08x' % code).decode('unicode-escape')
-        params = {
-            u'id': 'r' + str(code),
-            u'arg': c,
-            u'title': c,
-            u'subtitle': u'U+%04X: %s' % (code, name),
-            u'icon': u'icon.png',
-            u'valid': u'yes'
-        }
-        items.append(to_xml_item(params))
+        items[code] = to_xml_item(
+            uid='r' + str(code),
+            arg=c,
+            title=c,
+            subtitle=u'U+%04X: %s' % (code, name))
     if not rows:
-        params = {
-            u'id': 'r0',
-            u'arg': query,
-            u'title': query,
-            u'subtitle': u'No characters matched',
-            u'icon': u'icon.png',
-            u'valid': u'yes'
-        }
-        items.append(to_xml_item(params))
-
-    return u'''<?xml version="1.0" encoding="UTF-8"?>
-<items>{0}</items>'''.format(''.join(items))
+        items[0] = to_xml_item(
+            uid='r0',
+            arg=query,
+            title=query,
+            subtitle=u'No characters matched',
+            validity=False)
+    return to_xml(items)
 
 def do(query):
     with sqlite3.connect('db') as conn:

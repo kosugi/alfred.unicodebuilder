@@ -22,9 +22,10 @@ lower_map = dict([(n, unichr(n + 0x20)) for n in range(ord(u'A'), ord(u'Z') + 1)
 def lower(s):
     return unicode(s).translate(lower_map)
 
-def to_xml_item(params):
-    params = dict(map(lambda (k, v): (k, h(v)), params.iteritems()))
-    return u'''<item uid="{id}" arg="{arg}" valid="{valid}"><title>{title}</title><subtitle>{subtitle}</subtitle><icon>{icon}</icon></item>'''.format(**params)
+def to_xml_item(uid=u'', arg=u'', validity=True, title=u'', subtitle=u'', icon=u'icon.png'):
+    valid = u'yes' if validity else u'no'
+    return u'''<item uid="{uid}" arg="{arg}" valid="{valid}"><title>{title}</title><subtitle>{subtitle}</subtitle><icon>{icon}</icon></item>'''.format(
+        uid=h(uid), arg=h(arg), valid=h(valid), title=h(title), subtitle=h(subtitle), icon=h(icon))
 
 def to_xml(items):
     s = u'''<?xml version="1.0" encoding="UTF-8"?>

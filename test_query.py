@@ -26,8 +26,8 @@ class QueryTestCase(unittest.TestCase):
 
     def test_do(self):
         self.maxDiff = None
-        self.assertEqual(squeeze(do(u'')), u'''<?xml version="1.0" encoding="UTF-8"?><items><item uid="r0" arg="" valid="yes"><title></title><subtitle>No characters matched</subtitle><icon>icon.png</icon></item></items>''')
-        self.assertEqual(squeeze(do(u'_dummy_')), u'''<?xml version="1.0" encoding="UTF-8"?><items><item uid="r0" arg="_dummy_" valid="yes"><title>_dummy_</title><subtitle>No characters matched</subtitle><icon>icon.png</icon></item></items>''')
+        self.assertEqual(squeeze(do(u'')), u'''<?xml version="1.0" encoding="UTF-8"?><items><item uid="r0" arg="" valid="no"><title></title><subtitle>No characters matched</subtitle><icon>icon.png</icon></item></items>''')
+        self.assertEqual(squeeze(do(u'_dummy_')), u'''<?xml version="1.0" encoding="UTF-8"?><items><item uid="r0" arg="_dummy_" valid="no"><title>_dummy_</title><subtitle>No characters matched</subtitle><icon>icon.png</icon></item></items>''')
         self.assertEqual(squeeze(do(u'†')), u'''<?xml version="1.0" encoding="UTF-8"?><items><item uid="r8224" arg="\u2020" valid="yes"><title>\u2020</title><subtitle>U+2020: DAGGER</subtitle><icon>icon.png</icon></item></items>''')
         self.assertEqual(squeeze(do(u'fermata')), squeeze(u'''
 <?xml version="1.0" encoding="UTF-8"?>
