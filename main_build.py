@@ -8,7 +8,7 @@
 
 import sys
 import codecs
-import preprocess
+import build
 sys.stdout = codecs.getwriter('UTF-8')(sys.stdout)
 q = sys.argv[1] if 1 < len(sys.argv) else u"""{query}"""
-print preprocess.do(q)
+print build.do(q)

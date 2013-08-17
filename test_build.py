@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from preprocess import *
+from build import *
 
 def squeeze(value):
     value = value.replace('\r', '')
