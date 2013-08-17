@@ -11,26 +11,30 @@ def squeeze(value):
 class QueryTestCase(unittest.TestCase):
 
     def test_normalize_keywords(self):
-        self.assertEqual('', normalize_keywords(''))
-        self.assertEqual('', normalize_keywords('*'))
-        self.assertEqual('', normalize_keywords("'"))
-        self.assertEqual('', normalize_keywords('"'))
-        self.assertEqual('', normalize_keywords(':'))
-        self.assertEqual('', normalize_keywords('('))
-        self.assertEqual('', normalize_keywords(')'))
-        self.assertEqual('a*', normalize_keywords('a'))
-        self.assertEqual('a* b*', normalize_keywords(' a B'))
-        self.assertEqual('a* b*', normalize_keywords(' A b'))
+        self.assertEqual(u'', normalize_keywords(u''))
+        self.assertEqual(u'', normalize_keywords(u'*'))
+        self.assertEqual(u'', normalize_keywords(u"'"))
+        self.assertEqual(u'', normalize_keywords(u'"'))
+        self.assertEqual(u'', normalize_keywords(u':'))
+        self.assertEqual(u'', normalize_keywords(u'('))
+        self.assertEqual(u'', normalize_keywords(u')'))
+        self.assertEqual(u'a*', normalize_keywords(u'a'))
+        self.assertEqual(u'a* b*', normalize_keywords(u' a B'))
+        self.assertEqual(u'a* b*', normalize_keywords(u' A b'))
         self.assertEqual(u'Σ*', normalize_keywords(u'Σ'))
         self.assertEqual(u'б*', normalize_keywords(u'б'))
 
+    def test_get_row_by_char(self):
+        self.assertEqual((0xe5, 'LATIN SMALL LETTER A WITH RING ABOVE'), get_row_by_char(u'å'))
+
     def test_error(self):
         self.maxDiff = None
-        self.assertEqual(squeeze(error('bad')), u'''<?xml version="1.0" encoding="UTF-8"?><items><item uid="uid" arg="" valid="yes"><title>Error</title><subtitle>Something went wrong...</subtitle><icon>icon.png</icon></item></items>''')
+        self.assertEqual(squeeze(error('bad')), u'''<?xml version="1.0" encoding="UTF-8"?><items><item uid="uid" arg="bad" valid="yes"><title>Error</title><subtitle>Something went wrong...</subtitle><icon>icon.png</icon></item></items>''')
 
     def test_do(self):
         self.maxDiff = None
         self.assertEqual(squeeze(do(u'')), u'''<?xml version="1.0" encoding="UTF-8"?><items><item uid="r0" arg="" valid="no"><title></title><subtitle>No characters matched</subtitle><icon>icon.png</icon></item></items>''')
+        self.assertEqual(squeeze(do(u'å')), u'''<?xml version="1.0" encoding="UTF-8"?><items><item uid="r229" arg="\u00e5" valid="yes"><title>\u00e5</title><subtitle>U+00E5: LATIN SMALL LETTER A WITH RING ABOVE</subtitle><icon>icon.png</icon></item></items>''')
         self.assertEqual(squeeze(do(u'_dummy_')), u'''<?xml version="1.0" encoding="UTF-8"?><items><item uid="r0" arg="_dummy_" valid="no"><title>_dummy_</title><subtitle>No characters matched</subtitle><icon>icon.png</icon></item></items>''')
         self.assertEqual(squeeze(do(u'†')), u'''<?xml version="1.0" encoding="UTF-8"?><items><item uid="r8224" arg="\u2020" valid="yes"><title>\u2020</title><subtitle>U+2020: DAGGER</subtitle><icon>icon.png</icon></item></items>''')
         self.assertEqual(squeeze(do(u'fermata')), squeeze(u'''

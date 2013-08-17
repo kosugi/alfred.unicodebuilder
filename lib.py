@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import re
 from xml.sax.saxutils import escape
+import re
+import unicodedata
 
 alt_escape_rule = {u'"': u'&quot;', u"'": u'&#39;'}
 def h(value):
     return escape(value, alt_escape_rule)
+
+def normalize(value):
+    return unicodedata.normalize('NFKC', value)
 
 def parse_codepoint(query):
     return int(query, 16)
@@ -15,6 +19,7 @@ def codepoint2unichr(codepoint):
 
 pat_unichr = re.compile(r"^u'\\U([0-9a-f]{8})'$")
 def unichr2codepoint(s):
+    s = normalize(s)
     s = s.strip()
     if len(s) == 1:
         return ord(s)

@@ -26,6 +26,7 @@ class LibTestCase(unittest.TestCase):
         self.assertEqual(0, unichr2codepoint(u''))
         self.assertEqual(0, unichr2codepoint(u' '))
         self.assertEqual(0, unichr2codepoint(u'  '))
+        self.assertEqual(0xe5, unichr2codepoint(u'å'))
         self.assertEqual(0x3042, unichr2codepoint(u'あ'))
         self.assertEqual(0x3042, unichr2codepoint(u' あ '))
         self.assertEqual(0x11d00, unichr2codepoint(u'\U00011d00'))
