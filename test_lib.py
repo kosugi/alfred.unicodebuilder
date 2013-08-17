@@ -43,5 +43,9 @@ class LibTestCase(unittest.TestCase):
         self.assertEqual(u'α', lower(u'α'))
         self.assertEqual(u'Α', lower(u'Α'))
 
+    def test_to_xml_item(self):
+        params = dict(id='''<"ID'&>''', arg='ARG', valid='VALID', title='TITLE', subtitle='SUBTITLE', icon='ICON')
+        self.assertEqual(u'''<item uid="&lt;&quot;ID&#39;&amp;&gt;" arg="ARG" valid="VALID"><title>TITLE</title><subtitle>SUBTITLE</subtitle><icon>ICON</icon></item>''', to_xml_item(params))
+
 if __name__ == '__main__':
     unittest.main()

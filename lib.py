@@ -21,3 +21,15 @@ def unichr2codepoint(s):
 lower_map = dict([(n, unichr(n + 0x20)) for n in range(ord(u'A'), ord(u'Z') + 1)])
 def lower(s):
     return unicode(s).translate(lower_map)
+
+def to_xml_item(params):
+    params = dict(map(lambda (k, v): (k, h(v)), params.iteritems()))
+    return u'''<item uid="{id}" arg="{arg}" valid="{valid}"><title>{title}</title><subtitle>{subtitle}</subtitle><icon>{icon}</icon></item>'''.format(**params)
+
+def to_xml(items):
+    s = u'''<?xml version="1.0" encoding="UTF-8"?>
+<items>'''
+    for key in sorted(items):
+        s += items[key]
+    s += '''</items>'''
+    return s
