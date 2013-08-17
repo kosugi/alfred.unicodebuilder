@@ -4,6 +4,7 @@ from os.path import dirname, realpath
 import sys
 import sqlite3
 import unicodedata
+from lib import codepoint2unichr
 
 BASE = realpath(dirname(sys.argv[0]))
 
@@ -13,21 +14,20 @@ def prepare(conn):
     except sqlite3.OperationalError:
         pass
 
-    conn.execute('''create virtual table a using fts3 (code int primary key, name text, kwd text)''')
+    conn.execute('''create virtual table a using fts3 (code int primary key, name text)''')
 
 def store(conn):
     for code in xrange(0x110000):
         if not code % 0x4000:
             print '{0:06X}'.format(code)
             conn.commit()
-        c = ('\\U' + '%08x' % code).decode('unicode-escape')
+        c = codepoint2unichr(code)
         try:
             name = unicodedata.name(c)
         except ValueError:
             pass
         else:
-            kwd = name if code < 0x80 else name + ' '  + c
-            conn.execute('''insert into a (code, name, kwd) values (?, ?, ?)''', (code, name, kwd))
+            conn.execute('''insert into a (code, name) values (?, ?)''', (code, name))
 
 with sqlite3.connect(BASE + '/db', isolation_level='EXCLUSIVE') as conn:
     prepare(conn)
