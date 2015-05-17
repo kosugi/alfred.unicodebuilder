@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+from lib import call_with_cursor
 from query import *
 
 def squeeze(value):
@@ -25,7 +26,7 @@ class QueryTestCase(unittest.TestCase):
         self.assertEqual(u'б*', normalize_keywords(u'б'))
 
     def test_get_row_by_char(self):
-        self.assertEqual((0xe5, 'LATIN SMALL LETTER A WITH RING ABOVE'), get_row_by_char(u'å'))
+        self.assertEqual((0xe5, 'LATIN SMALL LETTER A WITH RING ABOVE'), call_with_cursor(u'å', get_row_by_char))
 
     def test_error(self):
         self.maxDiff = None

@@ -1,25 +1,32 @@
 
 .PHONY: all clean test install
 
-all: dist.alfredworkflow
+OBJDIR=./build
 
-dist.alfredworkflow: icon.png info.plist build.py query.py lib.py db
-	zip $@ $?
+all: $(OBJDIR)/dist.alfredworkflow
 
-icon.png: icon.svg
-	convert -background None $< $@
+$(OBJDIR)/dist.alfredworkflow: $(OBJDIR)/icon.png $(OBJDIR)/info.plist build.py query.py lib.py $(OBJDIR)/db
+	zip -j -D $@ $?
 
-info.plist: main_build.py main_query.py info.plist.xml
+$(OBJDIR)/icon.png: icon.svg
+	@[ -d $(OBJDIR) ] || mkdir -p $(OBJDIR)
+	convert -background None icon.svg $@
+
+$(OBJDIR)/info.plist: main_build.py main_query.py info.plist.xml make-info.plist.py
+	@[ -d $(OBJDIR) ] || mkdir -p $(OBJDIR)
 	python make-info.plist.py
 
-db: make-db.py
-	python $<
+$(OBJDIR)/NamesList.txt:
+	wget -O $(OBJDIR)/$(@F) http://unicode.org/Public/UNIDATA/NamesList.txt
+
+$(OBJDIR)/db: $(OBJDIR)/NamesList.txt make-db.py
+	python make-db.py
 
 clean:
-	rm -f *.pyc icon.png info.plist dist.alfredworkflow db
+	rm -f *.pyc $(OBJDIR)/*
 
 test:
 	python -m unittest test_build test_query test_lib
 
 install: all
-	open dist.alfredworkflow
+	open $(OBJDIR)/dist.alfredworkflow

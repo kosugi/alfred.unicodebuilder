@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from contextlib import closing
-from lib import lower, h, to_xml_item, to_xml, unichr2codepoint, codepoint2unichr, normalize
+from lib import lower, h, to_xml_item, to_xml, unichr2codepoint, codepoint2unichr, normalize, call_with_cursor
 import re
-import sqlite3
-import unicodedata
 
 pat_divide_kwds = re.compile(r'\s+')
 def normalize_keywords(query):
@@ -20,8 +17,7 @@ def normalize_keywords(query):
     return u' '.join(kwds)
 
 def row_into_items(items, row):
-    code = row[0]
-    name = row[1]
+    code, name = row
     c = codepoint2unichr(code)
     items[code] = to_xml_item(
         uid='r' + str(code),
@@ -29,12 +25,11 @@ def row_into_items(items, row):
         title=c,
         subtitle=u'U+%04X: %s' % (code, name))
 
-def get_row_by_char(query):
+def get_row_by_char(cursor, query):
     try:
         code = unichr2codepoint(query)
-        s = codepoint2unichr(code)
-        name = unicodedata.name(s)
-        return (code, name)
+        cursor.execute('select code, name from a where code = ?', [code])
+        return cursor.fetchone()
     except:
         pass
 
@@ -53,22 +48,23 @@ def empty_result_into_items(items, query):
 def error(s):
     return to_xml(dict(uid=to_xml_item(uid=u'uid', arg=s, title=u'Error', subtitle=u'Something went wrong...')))
 
+def make_results(cursor, query):
+    items = {}
+    try:
+        row = get_row_by_char(cursor, query)
+        if row:
+            row_into_items(items, row)
+
+        rows = get_rows(cursor, query)
+        for row in rows:
+            row_into_items(items, row)
+
+        if not items:
+            empty_result_into_items(items, query)
+
+        return to_xml(items)
+    except Exception, e:
+        return error(str(e))
+
 def do(query):
-    with sqlite3.connect('db') as conn:
-        with closing(conn.cursor()) as cursor:
-            items = {}
-            try:
-                row = get_row_by_char(query)
-                if row:
-                    row_into_items(items, row)
-
-                rows = get_rows(cursor, query)
-                for row in rows:
-                    row_into_items(items, row)
-
-                if not items:
-                    empty_result_into_items(items, query)
-
-                return to_xml(items)
-            except Exception, e:
-                return error(str(e))
+    return call_with_cursor([query], make_results)

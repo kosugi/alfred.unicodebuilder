@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from xml.sax.saxutils import escape
+from contextlib import closing
 import re
 import unicodedata
+import sqlite3
 
 alt_escape_rule = {u'"': u'&quot;', u"'": u'&#39;'}
 def h(value):
@@ -42,3 +44,8 @@ def to_xml(items):
         s += items[key]
     s += '''</items>'''
     return s
+
+def call_with_cursor(args, callback):
+    with sqlite3.connect('db') as conn:
+        with closing(conn.cursor()) as cursor:
+            return callback(cursor, *args)
